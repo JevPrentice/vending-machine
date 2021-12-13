@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Spring boot entry point, though not used for the vending machine.
+ * Spring boot entry point.
  *
  * @author Jev Prentice
  * @since 08 December 2021

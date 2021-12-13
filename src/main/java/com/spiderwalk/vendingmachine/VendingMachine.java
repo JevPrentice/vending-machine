@@ -2,7 +2,6 @@ package com.spiderwalk.vendingmachine;
 
 import com.spiderwalk.vendingmachine.domain.Coin;
 import com.spiderwalk.vendingmachine.domain.Product;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -33,7 +32,6 @@ import java.util.stream.IntStream;
  * @author Jev Prentice
  * @since 08 December 2021
  */
-@ToString
 @Slf4j
 final public class VendingMachine implements VendingMachineInventory, VendingMachineConsumer {
 
@@ -75,6 +73,14 @@ final public class VendingMachine implements VendingMachineInventory, VendingMac
         final Product current = this.products.get(index);
         if (current == null) throw new IllegalStateException("There is no product in slot %s".formatted(index));
         return current;
+    }
+
+    /**
+     * @param index The index.
+     * @return A shallow copy of a product by index
+     */
+    public Product getProductCopy(final int index) {
+        return Product.copy(getProductOrThrow(index));
     }
 
     @Override
@@ -254,7 +260,16 @@ final public class VendingMachine implements VendingMachineInventory, VendingMac
         return result;
     }
 
+    @Override
     public List<Product> getProducts() {
-        return products;
+        return products.stream().map(Product::copy).collect(Collectors.toList());
+    }
+
+    /**
+     * @return The coins contained inside the vending machine.
+     */
+    @Override
+    public Map<Coin, Integer> getCoins() {
+        return Collections.unmodifiableMap(coins);
     }
 }

@@ -1,6 +1,7 @@
 package com.spiderwalk.vendingmachine;
 
 import com.spiderwalk.vendingmachine.domain.Coin;
+import com.spiderwalk.vendingmachine.domain.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -25,9 +27,9 @@ public class VendingMachineTest {
                 List.of(0.01d, 0.02d, 0.05d, 0.10d, 0.20d, 0.50, 1.0, 2.0, 5.0));
 
         // default products for test cases £1 each, 10 avail to use for change.
-        vendingMachine.getProducts().forEach(p -> {
-            p.setPrice(100);
-            p.setQuantity(10);
+        IntStream.range(0, vendingMachine.getProducts().size()).forEach(i -> {
+            vendingMachine.setProductPrice(i, 100);
+            vendingMachine.setProductQuantity(i, 10);
         });
 
         addNOfEachCoin(vendingMachine, 10);
@@ -334,9 +336,9 @@ public class VendingMachineTest {
                 List.of(0.01d, 0.02d, 0.05d, 0.10d, 0.20d, 0.50, 1.0, 2.0, 5.0));
 
         // default products for test cases £1 each, 10 avail to use for change.
-        vendingMachine.getProducts().forEach(p -> {
-            p.setPrice(140);
-            p.setQuantity(10);
+        IntStream.range(0, vendingMachine.getProducts().size()).forEach(i -> {
+            vendingMachine.setProductQuantity(i, 10);
+            vendingMachine.setProductPrice(i, 140);
         });
 
         vendingMachine.setCoinQuantity(Coin.FiftyP, 1); // HAS ONE 50p, but 0 50p
@@ -413,5 +415,22 @@ public class VendingMachineTest {
         Assertions.assertEquals(11, vendingMachine.getCoinQuantity(Coin.OnePound));
         Assertions.assertEquals(10, vendingMachine.getCoinQuantity(Coin.TwoPound));
         Assertions.assertEquals(10, vendingMachine.getCoinQuantity(Coin.FivePound));
+    }
+
+    @Test
+    @DisplayName("Test encapsulation")
+    void testEncapsulation() {
+        final VendingMachine vendingMachine = createNormalTestVendingMachine();
+
+        final List<Product> products = vendingMachine.getProducts();
+        final Product product = products.get(0);
+        product.setQuantity(999);
+        Assertions.assertEquals(999, product.getQuantity());
+
+        Assertions.assertEquals(10,
+                vendingMachine.getProducts().get(0).getQuantity());
+
+        Assertions.assertThrowsExactly(UnsupportedOperationException.class, () ->
+                vendingMachine.getCoins().put(Coin.TenP, 5));
     }
 }

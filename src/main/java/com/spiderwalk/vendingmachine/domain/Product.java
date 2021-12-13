@@ -14,4 +14,8 @@ import lombok.Data;
 public class Product {
     private int quantity;
     private int price;
+
+    public static Product copy(final Product p) {
+        return new Product(p.getQuantity(), p.getPrice());
+    }
 }

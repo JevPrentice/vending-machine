@@ -4,6 +4,7 @@ import com.spiderwalk.vendingmachine.domain.Coin;
 import com.spiderwalk.vendingmachine.domain.Product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An interface containing methods to maintain the internal state of a vending machines inventory.
@@ -17,6 +18,11 @@ public interface VendingMachineInventory {
      * @return List of products initiated in the vending machine.
      */
     List<Product> getProducts();
+
+    /**
+     * @return Map containing coins and their quantity.
+     */
+    Map<Coin, Integer> getCoins();
 
     /**
      * Sets the quantity for an existing product.
