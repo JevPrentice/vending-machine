@@ -1,6 +1,9 @@
 package com.spiderwalk.vendingmachine;
 
 import com.spiderwalk.vendingmachine.domain.Coin;
+import com.spiderwalk.vendingmachine.domain.Product;
+
+import java.util.List;
 
 /**
  * An interface containing methods to maintain the internal state of a vending machines inventory.
@@ -9,6 +12,11 @@ import com.spiderwalk.vendingmachine.domain.Coin;
  * @since 08 December 2021
  */
 public interface VendingMachineInventory {
+
+    /**
+     * @return List of products initiated in the vending machine.
+     */
+    List<Product> getProducts();
 
     /**
      * Sets the quantity for an existing product.
@@ -25,8 +33,7 @@ public interface VendingMachineInventory {
      *
      * @param index The product item index.
      * @return The quantity of the product, defaults to 0.
-     * @throws IndexOutOfBoundsException If the internal product list is less than the provided index.
-     * @throws IllegalStateException     If the product does not exist.
+     * @throws IllegalStateException If the internal product list is less than the provided index.
      */
     int getProductQuantity(int index);
 

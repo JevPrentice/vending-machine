@@ -32,6 +32,7 @@ public enum Coin {
      * @return The value of the coin in pence.
      */
     public int getValueInPence() {
+        if (valueInPence == 0) throw new IllegalStateException("A coin cannot have 0 value.");
         return valueInPence;
     }
 
